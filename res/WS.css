@@ -1,0 +1,9 @@
+:root{
+    --bgC:rgb(9,14,17);
+    --C:white;
+}
+
+body{
+    background-color: var(--bgC);
+    color: var(--C);
+}

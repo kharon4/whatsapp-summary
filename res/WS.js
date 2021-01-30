@@ -1,0 +1,1 @@
+console.log(window['sW'],window['gW']);
