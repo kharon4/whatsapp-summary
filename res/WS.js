@@ -1,31 +1,55 @@
-console.log(window['sW'],window['gW']);//should be deleted
+console.log(window.parent);
+console.log(window.top);
+console.log(window.parent === window);
 
-
+const setup = ()=>{
 let words = new Set();
-
-words.add('temp');
-
 
 const createWordDom = (word)=>{
     const dom = document.createElement('div');
-    
+    dom.classList.add('wordEntry');
+
     const textDom = document.createElement('span');
     textDom.innerText = word;
     textDom.classList.add('wordName');
 
     const regExDom = document.createElement('span');
-    regExDom.innerText = 'regEx';
+    let reArr = [];
+    window['rE'](word,reArr);
+    regExDom.innerText = '';
+    for(let i = 0 ; i < reArr.length; ++i)regExDom.innerText += reArr[i].toString()+"|";
     regExDom.classList.add('regExName');
 
 
     const remDom = document.createElement('img');
     remDom.src = './res/cancel.svg';
+    remDom.addEventListener('click',()=>{
+        words.delete(word);
+        updateListDom();
+        saveWords();
+    });
 
     dom.append(textDom,regExDom,remDom);
 
     return dom;
 }
 
+const saveWords = ()=>{
+    let arr = [];
+    words.forEach((val)=>{
+        arr.push(val);
+    });
+    window['sW'](arr);
+}
+
+
+const getWords = ()=>{
+    let arr = window['gW']();
+    words.clear();
+    for(let i = 0 ; i < arr.length; ++i)words.add(arr[i]);
+}
+
+getWords();
 
 const listDom = document.getElementById('wordList');
 
@@ -37,3 +61,26 @@ const updateListDom = ()=>{
 }
 
 updateListDom();
+
+
+let addButton = document.getElementById('addWordBtn');
+let addWordText = document.getElementById('wordInput');
+
+addButton.addEventListener('click',()=>{
+    words.add(addWordText.value);
+    updateListDom();
+    saveWords();
+});
+
+}
+
+
+const check = ()=>{
+    if(window['set'] !== undefined){
+        setup();
+    }else{
+        setTimeout(check,100);
+    }
+}
+
+check();

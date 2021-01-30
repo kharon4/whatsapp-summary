@@ -27,32 +27,54 @@ const escapeRegEx = (word)=>{
     return rVal;
 }
 
+const getRegExps = (word,arr)=>{
+    //original
+    arr.push(new RegExp(escapeRegEx(word)));
+    //spelling mistakes
+
+    //character change
+    for(let j = 0 ; j < word.length; ++j){
+       let tempStr= escapeRegEx(word.slice(0,j));
+       tempStr += '.';
+       tempStr += escapeRegEx(word.slice(j+1,word.length));
+       arr.push(new RegExp(tempStr));
+    }
+
+    //character missing or repeated multiple times
+    for(let j = 1 ; j < word.length; ++j){
+        let tempStr= escapeRegEx(word.slice(0,j));
+        tempStr += '*';
+        tempStr += escapeRegEx(word.slice(j,word.length));
+        arr.push(new RegExp(tempStr));
+    }
+}
+
 const generateList = (words)=>{
     findList = [];
 
     for(let i = 0 ; i < words.length; ++i){
         
-        
+        getRegExps(words[i],findList);
 
-        //original
-        findList.push(new RegExp(escapeRegEx(words[i])));
-        //spelling mistakes
+        // //original
+        // findList.push(new RegExp(escapeRegEx(words[i])));
+        // //spelling mistakes
 
-        //character change
-        for(let j = 0 ; j < words[i].length; ++j){
-           let tempStr= escapeRegEx(words[i].slice(0,j));
-           tempStr += '.';
-           tempStr += escapeRegEx(words[i].slice(j+1,words[i].length));
-           findList.push(new RegExp(tempStr));
-        }
+        // //character change
+        // for(let j = 0 ; j < words[i].length; ++j){
+        //    let tempStr= escapeRegEx(words[i].slice(0,j));
+        //    tempStr += '.';
+        //    tempStr += escapeRegEx(words[i].slice(j+1,words[i].length));
+        //    findList.push(new RegExp(tempStr));
+        // }
 
-        //character missing or repeated multiple times
-        for(let j = 1 ; j < words[i].length; ++j){
-            let tempStr= escapeRegEx(words[i].slice(0,j));
-            tempStr += '*';
-            tempStr += escapeRegEx(words[i].slice(j,words[i].length));
-            findList.push(new RegExp(tempStr));
-        }
+        // //character missing or repeated multiple times
+        // for(let j = 1 ; j < words[i].length; ++j){
+        //     let tempStr= escapeRegEx(words[i].slice(0,j));
+        //     tempStr += '*';
+        //     tempStr += escapeRegEx(words[i].slice(j,words[i].length));
+        //     findList.push(new RegExp(tempStr));
+        // }
     }
 }
 
@@ -96,16 +118,25 @@ const updateFunc = ()=>{
     let outArr = [];
     recCheck(document.body,outArr);
     for(let i = 0 ; i < outArr.length; ++i){
-        outArr[i].style.backgroundColor = 'lightgrey';
+        outArr[i].style.backgroundColor = 'lightblue';
         outArr[i].style.color = 'black';
     }
 }
 
-let win = window.open('http://127.0.0.1:5500/res/WS.html',"MsgWindow", "width=500,height=700");
-win['sW'] = saveWords;
-win['gW'] = getWords;
+let win = window.open('',"MsgWindow", "width=500,height=700");
+
+win.location = 'http://127.0.0.1:5500/res/WS.html';
+
+const setWindFunc = ()=>{
+    win['sW'] = saveWords;
+    win['gW'] = getWords;
+    win['rE'] = getRegExps;
+    win['set'] = 'done';
+    console.log('here');
+}
 
 generateList(getWords());
 console.log(findList);
 
 setInterval(updateFunc,100);
+setInterval(setWindFunc,100);
