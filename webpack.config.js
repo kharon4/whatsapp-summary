@@ -13,7 +13,7 @@ module.exports = {
     plugins: [
       new BookmarkletPlugin({
         input: 'WS.js',
-        output: 'README.md',
+        output: 'index.html',
         linkName:'WS',
         pageTitle: 'whatsapp summary Bookmarklet',
         author:'Abhishek Khurana',
