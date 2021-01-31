@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      html,body,div {  text-align: center; margin: 0 auto; padding: 0; font: normal 16px/24px Helvetica Neue, Helvetica, sans-serif; color: #333; }
+      #main { max-width: 630px; margin: 3em auto; }
+      .bookmarklet { display: inline-block; padding: .5em 1em; color: #fff; background: #50dcf3; border-radius: 4px; text-decoration: none; }
+      a { color: #50dcf3; }
+      .dim { color: #999; }
+      .bookmarkContainer { padding: 30px;}
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <h1>whatsapp summary Bookmarklet</h1>
+      <p>By: Abhishek Khurana</p>
+     <div class="bookmarkContainer">
+        <p>
+          <a class="bookmarklet" href="javascript:(function(){(()%3D%3E%7Blet%20e%3D%5B%5D%3Bconst%20l%3De%3D%3E%7Blet%20l%3D%22%22%3Bfor(let%20t%3D0%3Bt%3Ce.length%3B%2B%2Bt)%7Blet%20r%3De.charAt(t)%3Bswitch(r)%7Bcase%22.%22%3Acase%22%5C%5C%22%3Acase%22%2B%22%3Acase%22-%22%3Acase%22%3F%22%3Acase%22*%22%3Acase%22%5E%22%3Acase%22%24%22%3Acase%22%2F%22%3Al%2B%3D%22%5C%5C%22%2Br%3Bbreak%3Bdefault%3Al%2B%3Dr%7D%7Dreturn%20l%7D%2Ct%3D(e%2Ct)%3D%3E%7Bt.push(new%20RegExp(l(e)))%3Bfor(let%20r%3D0%3Br%3Ce.length%3B%2B%2Br)%7Blet%20n%3Dl(e.slice(0%2Cr))%3Bn%2B%3D%22.%22%2Cn%2B%3Dl(e.slice(r%2B1%2Ce.length))%2Ct.push(new%20RegExp(n))%7Dfor(let%20r%3D1%3Br%3Ce.length%3B%2B%2Br)%7Blet%20n%3Dl(e.slice(0%2Cr))%3Bn%2B%3D%22*%22%2Cn%2B%3Dl(e.slice(r%2Ce.length))%2Ct.push(new%20RegExp(n))%7D%7D%2Cr%3D(l%2Ct)%3D%3E%7Blet%20n%3D0%3Bfor(let%20e%3D0%3Be%3Cl.children.length%3B%2B%2Be)r(l.children%5Be%5D%2Ct)%26%26n%2B%2B%3Bif(n%3E0)return!0%3Bif(null!%3Dl.innerText)for(let%20r%3D0%3Br%3Ce.length%3B%2B%2Br)if(l.innerText.search(e%5Br%5D)%3E%3D0)return%20t.push(l)%2C!0%3Breturn!1%7D%3B(l%3D%3E%7Be%3D%5B%5D%3Bfor(let%20r%3D0%3Br%3Cl.length%3B%2B%2Br)t(l%5Br%5D%2Ce)%7D)((()%3D%3E%7Blet%20e%3DlocalStorage.getItem(%22was%22)%3Breturn%20null%3D%3D%3De%3F%5B%5D%3AJSON.parse(e)%7D)())%2CsetInterval((()%3D%3E%7Bconsole.log(%22whatsapp%20summary%20working%20!!!%22)%3Blet%20e%3D%5B%5D%3Br(document.body%2Ce)%3Bfor(let%20l%3D0%3Bl%3Ce.length%3B%2B%2Bl)e%5Bl%5D.style.backgroundColor%3D%22lightblue%22%2Ce%5Bl%5D.style.color%3D%22black%22%7D)%2C100)%7D)()%3B})()">WS</a>
+        </p> 
+        <p>
+          Drag this button to your bookmarks bar to save it as a bookmarklet.
+        </p>
+      </div>
+      
+    </div>
+  </body>
+</html>

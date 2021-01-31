@@ -1,8 +1,4 @@
-
-
-
 let findList = [];
-
 
 const escapeRegEx = (word)=>{
     let rVal = "";
@@ -53,28 +49,7 @@ const generateList = (words)=>{
     findList = [];
 
     for(let i = 0 ; i < words.length; ++i){
-        
         getRegExps(words[i],findList);
-
-        // //original
-        // findList.push(new RegExp(escapeRegEx(words[i])));
-        // //spelling mistakes
-
-        // //character change
-        // for(let j = 0 ; j < words[i].length; ++j){
-        //    let tempStr= escapeRegEx(words[i].slice(0,j));
-        //    tempStr += '.';
-        //    tempStr += escapeRegEx(words[i].slice(j+1,words[i].length));
-        //    findList.push(new RegExp(tempStr));
-        // }
-
-        // //character missing or repeated multiple times
-        // for(let j = 1 ; j < words[i].length; ++j){
-        //     let tempStr= escapeRegEx(words[i].slice(0,j));
-        //     tempStr += '*';
-        //     tempStr += escapeRegEx(words[i].slice(j,words[i].length));
-        //     findList.push(new RegExp(tempStr));
-        // }
     }
 }
 
@@ -123,20 +98,6 @@ const updateFunc = ()=>{
     }
 }
 
-let win = window.open('',"MsgWindow", "width=500,height=700");
-
-win.location = 'http://127.0.0.1:5500/res/WS.html';
-
-const setWindFunc = ()=>{
-    win['sW'] = saveWords;
-    win['gW'] = getWords;
-    win['rE'] = getRegExps;
-    win['set'] = 'done';
-    console.log('here');
-}
-
 generateList(getWords());
-console.log(findList);
 
 setInterval(updateFunc,100);
-setInterval(setWindFunc,100);

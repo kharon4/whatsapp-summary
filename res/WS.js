@@ -1,6 +1,5 @@
-console.log(window.parent);
-console.log(window.top);
-console.log(window.parent === window);
+console.log('bhat');
+
 
 const setup = ()=>{
 let words = new Set();
@@ -22,7 +21,7 @@ const createWordDom = (word)=>{
 
 
     const remDom = document.createElement('img');
-    remDom.src = './res/cancel.svg';
+    remDom.src = 'http://127.0.0.1:5500/res/res/cancel.svg';
     remDom.addEventListener('click',()=>{
         words.delete(word);
         updateListDom();

@@ -4,19 +4,26 @@ const BookmarkletPlugin = require('bookmarklet-webpack-plugin');
 module.exports = {
     mode:'production',
     entry: {
-      main: "./js/index.js",
+      WS: "./js/WS.js",
+      WSSettings : "./js/WSSettings.js"
     },
     output: {
-        filename: 'main.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-        new BookmarkletPlugin({
-          input: 'main.js',             // required (must match webpack output)
-          output: 'index.html',          // <- default
-          linkName:'WS',        // <- default
-          pageTitle: 'whatsapp summary Bookmarklet', // default -> 'Bookmarklet'
-          author:'Abhishek Khurana',       // default -> '' (removed line)
-        }),
+      new BookmarkletPlugin({
+        input: 'WS.js',             // required (must match webpack output)
+        output: 'WS.html',          // <- default
+        linkName:'WS',        // <- default
+        pageTitle: 'whatsapp summary Bookmarklet', // default -> 'Bookmarklet'
+        author:'Abhishek Khurana',       // default -> '' (removed line)
+      }),new BookmarkletPlugin({
+        input: 'WSSettings.js',             // required (must match webpack output)
+        output: 'WSSettings.html',          // <- default
+        linkName:'WSS',        // <- default
+        pageTitle: 'whatsapp summary Settings Bookmarklet', // default -> 'Bookmarklet'
+        author:'Abhishek Khurana',       // default -> '' (removed line)
+      }),
     ],
 };
