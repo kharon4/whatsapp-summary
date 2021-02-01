@@ -1,8 +1,8 @@
 (()=>{
-    if(window.location != 'https://web.whatsapp.com/'){
-        window.alert('This bookmarklet only works on web.whatsapp.com');
-        return;
-    }
+    // if(window.location != 'https://web.whatsapp.com/'){
+    //     window.alert('This bookmarklet only works on web.whatsapp.com');
+    //     return;
+    // }
     
     const win = window.open('',"_blank", "width=500,height=700");
     
@@ -103,12 +103,23 @@
 
 
         const remDom = document.createElement('img');
-        remDom.src = "https://s2.svgbox.net/hero-solid.svg?ic=x&color=ff0000";
+        let vsc = "https://s2.svgbox.net/hero-solid.svg?ic=x&color=ff0000";
+        let hsc ="https://s2.svgbox.net/heropatterns.svg?ic=architect&color=000000"; 
+        // remDom.style.visibility = 'hidden';
+        remDom.src = hsc;
         remDom.addEventListener('click',()=>{
             words.delete(word);
             updateListDom();
             saveWords();
         });
+
+        regExDom.addEventListener('mouseenter',()=>{remDom.src = vsc;});
+        regExDom.addEventListener('mouseleave',()=>{remDom.src = hsc;});
+        textDom.addEventListener('mouseenter',()=>{remDom.src = vsc;});
+        textDom.addEventListener('mouseleave',()=>{remDom.src = hsc;});
+        remDom.addEventListener('mouseenter',()=>{remDom.src = vsc;});
+        remDom.addEventListener('mouseleave',()=>{remDom.src = hsc;});
+
 
         dom.append(textDom,regExDom,remDom);
 
@@ -194,20 +205,37 @@
     }
     let updateState = updateStates.notFound;
     let sc = 0;
+    let chatName = undefined;
 
     const loop = ()=>{
         requestAnimationFrame(loop);
+        let titleDoms = document.getElementsByClassName('YEe1t');
+        if(titleDoms.length == 0){
+            chatName = undefined;
+            return;
+        }else{
+            let cN = titleDoms[0].innerText;
+            if(cN != chatName){
+                chatName = cN;
+                sc = 0;
+                updateState = updateStates.notFound;
+            }
+        }
+
+
         let elems = document.getElementsByClassName('_26MUt');
         if(elems.length == 0){
             updateState=updateStates.notFound;
             sc=0;
         }else{
             if(updateState === updateStates.notFound){
+                console.log('nc', chatName);
                 updateState = updateState.opened;
                 updateFunc(elems[0]);
                 sc = elems[0].scrollHeight;
             }else{
                 if(elems[0].scrollHeight != sc){
+                    console.log('messages');
                     sc = elems[0].scrollHeight;
                     updateFunc(elems[0]);
                 }
@@ -216,4 +244,6 @@
     }
     loop();
 
+
+    window.addEventListener('unload',()=>{win.close();})
 })();
