@@ -178,14 +178,42 @@
         return false;
     }
     
-    const updateFunc = ()=>{
+    const updateFunc = (searchElem)=>{
         console.log('whatsapp summary working !!!');
         let outArr = [];
-        recCheck(document.body,outArr);
+        recCheck(searchElem,outArr);
         for(let i = 0 ; i < outArr.length; ++i){
             outArr[i].style.backgroundColor = bgColDom.value;
             outArr[i].style.color = colDom.value;
         }
     }
-    setInterval(updateFunc,500);
+
+    const updateStates = {
+        notFound:0,
+        opened:1
+    }
+    let updateState = updateStates.notFound;
+    let sc = 0;
+
+    const loop = ()=>{
+        requestAnimationFrame(loop);
+        let elems = document.getElementsByClassName('_26MUt');
+        if(elems.length == 0){
+            updateState=updateStates.notFound;
+            sc=0;
+        }else{
+            if(updateState === updateStates.notFound){
+                updateState = updateState.opened;
+                updateFunc(elems[0]);
+                sc = elems[0].scrollHeight;
+            }else{
+                if(elems[0].scrollHeight != sc){
+                    sc = elems[0].scrollHeight;
+                    updateFunc(elems[0]);
+                }
+            }
+        }
+    }
+    loop();
+
 })();
