@@ -7,21 +7,29 @@
     const win = window.open('',"_blank", "width=500,height=700");
     
     win.document.body.innerHTML = `<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
     :root{--bgC:rgb(19,28,33);--C:white;--hidC: rgb(203,204,182);--bgInput:rgb(51,56,59);--borderCol: rgb(50,55,57);}
-    body{background-color: var(--bgC);color: var(--C);font-size: 20px;line-height: 32px;}
+    body{background-color: var(--bgC);color: var(--C);font-size: 20px;line-height: 32px;font-family: 'Roboto', sans-serif;}
     input{background-color: var(--bgInput);color: var(--C);outline: none;border: none;padding: 2px 10px;height: 32px;border-radius: 32px;width: calc(100% - 65px);}
     img{margin-top:10px;height: 32px;padding: 5px;position:relative; top:15px;filter: saturate(0);}
     img:hover{filter: saturate(1);}
+    .hvr{filter: saturate(0);}
+    .hvr:hover{filter: saturate(1);}
     .wordName{display:inline-block;width:20%;padding: 0px 5px;height: 100%;border: var(--borderCol) 2px solid;box-sizing: border-box;overflow-y: hidden;overflow-x: scroll;position: relative;top: 8px;}
     .regExName{display:inline-block;color: var(--hidC);width: calc(80% - 45px);height: 100%;padding: 0px 5px;border: var(--borderCol) 2px solid;box-sizing: border-box;word-wrap: none;overflow-y: hidden;overflow-x: scroll;position: relative;top: 8px;white-space: nowrap;}
     .wordEntry{height: 32px;padding: 0px;margin: 0px;}
     ::-webkit-scrollbar{height: 0px;width: 0px;}
     .col{margin-top:10px;padding:0px;border-radius:0px;width:50%;}
     </style>
-    <h1>WhatsApp Summary</h1><div id="wordList"></div><input id='wordInput' type="text" placeholder="Add Word"><img id="addWordBtn" src="https://s2.svgbox.net/hero-solid.svg?ic=plus&color=00af9c">
+    <h1>WhatsApp Summary</h1><div id="wordList" style="max-height:20%;overflow-y:scroll;"></div><input id='wordInput' type="text" placeholder="Add Word"><img id="addWordBtn" src="https://s2.svgbox.net/hero-solid.svg?ic=plus&color=00af9c">
     <input id="bgCol" class="col" type="color"><input id="hlCol" class="col" type="color" value="#000000">
+    <div><span id="CN" style="width:75%;display:inline-block"></span><span id="ASBtn" class="hvr" style="background:#00af9c;padding:0px 2px;">Auto Scroll</span><div>
+    <div id="summary"></div>
     `;
 
+    const summaryD = win.document.getElementById('summary');
+    const cNameD = win.document.getElementById('CN');
+    const ASBtn = win.document.getElementById('ASBtn');
     const bgColDom = win.document.getElementById('bgCol');
     const colDom = win.document.getElementById('hlCol');
 
@@ -126,6 +134,14 @@
         return dom;
     }
 
+    const createMsgDom = (msg,element)=>{
+        const dom = document.createElement('div');
+        dom.classList.add('msg');
+        dom.innerText=msg;
+        dom.addEventListener('click',()=>{console.log('focus');element.scrollIntoView();});
+        return dom;
+    }
+
     const saveWords = ()=>{
         let arr = [];
         words.forEach((val)=>{
@@ -192,10 +208,12 @@
     const updateFunc = (searchElem)=>{
         console.log('whatsapp summary working !!!');
         let outArr = [];
+        summaryD.innerHTML = '';
         recCheck(searchElem,outArr);
         for(let i = 0 ; i < outArr.length; ++i){
             outArr[i].style.backgroundColor = bgColDom.value;
             outArr[i].style.color = colDom.value;
+            summaryD.append(createMsgDom(outArr[i].innerText,outArr[i]));
         }
     }
 
@@ -212,10 +230,14 @@
         let titleDoms = document.getElementsByClassName('YEe1t');
         if(titleDoms.length == 0){
             chatName = undefined;
+            cNameD.innerText = "";
+            ASBtn.visibility = "hidden";
             return;
         }else{
             let cN = titleDoms[0].innerText;
             if(cN != chatName){
+                cNameD.innerText = cN;
+                ASBtn.visibility = "visible";
                 chatName = cN;
                 sc = 0;
                 updateState = updateStates.notFound;
@@ -244,6 +266,25 @@
     }
     loop();
 
+    ASBtn.addEventListener('click',()=>{
+        let lastSclH = 0;
+        let failCt = 10;
+        const scrollFunc = ()=>{
+            let elems = document.getElementsByClassName('_26MUt');
+            if(elems.length===0)return;
+            if(lastSclH != elems[0].scrollHeight){
+                elems[0].scrollTo(0,elems[0].scrollHeight);
+                lastSclH = elems[0].scrollHeight;
+                failCt = 10;
+                setTimeout(scrollFunc,300);//3 sec time
+            }else{
+                failCt--;
+                if(failCt>0)setTimeout(scrollFunc,300);//3 sec time
+            }
+        }
+
+        scrollFunc();
+    });
 
     window.addEventListener('unload',()=>{win.close();})
 })();
