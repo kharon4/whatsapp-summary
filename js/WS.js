@@ -6,24 +6,32 @@
     
     const win = window.open('',"_blank", "width=500,height=700");
     
+    const updateStates = {
+        notFound:0,
+        opened:1
+    }
+    let updateState = updateStates.notFound;
+    let sc = 0;
+    let chatName = undefined;
+
     win.document.body.innerHTML = `<style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
     :root{--bgC:rgb(19,28,33);--C:white;--hidC: rgb(203,204,182);--bgInput:rgb(51,56,59);--borderCol: rgb(50,55,57);--bgTitleC:rgb(32,38,42);}
     body{background-color: var(--bgC);color: var(--C);font-size: 20px;line-height: 32px;font-family: 'Roboto', sans-serif;}
     input{background-color: var(--bgInput);color: var(--C);outline: none;border: none;padding: 2px 10px;height: 32px;border-radius: 32px;width: calc(100% - 65px);}
-    img{margin-top:10px;height: 32px;padding: 5px;position:relative; top:15px;filter: saturate(0);}
+    img{margin-top:10px;height: 32px;padding: 5px;filter: saturate(0);position:relative; top:3px;}
     img:hover{filter: saturate(1);}
     .hvr{filter: saturate(0);}
     .hvr:hover{filter: saturate(1);}
-    .wordName{display:inline-block;background:var(--bgTitleC);width:20%;padding: 0px 5px;height: 100%;border: var(--borderCol) 1px solid;box-sizing: border-box;overflow-y: hidden;overflow-x: scroll;position: relative;top: 8px;}
-    .regExName{display:inline-block;background:var(--bgTitleC);color: var(--hidC);width: calc(80% - 45px);height: 100%;padding: 0px 5px;border: var(--borderCol) 2px solid;box-sizing: border-box;word-wrap: none;overflow-y: hidden;overflow-x: scroll;position: relative;top: 8px;white-space: nowrap;}
+    .wordName{display:inline-block;background:var(--bgTitleC);width:20%;padding: 0px 5px;height: 100%;border: var(--borderCol) 1px solid;box-sizing: border-box;overflow-y: hidden;overflow-x: scroll;}
+    .regExName{display:inline-block;background:var(--bgTitleC);color: var(--hidC);width: calc(80% - 45px);height: 100%;padding: 0px 5px;border: var(--borderCol) 2px solid;box-sizing: border-box;word-wrap: none;overflow-y: hidden;overflow-x: scroll;white-space: nowrap;}
     .wordEntry{height: 32px;padding: 0px;margin: 0px;}
     ::-webkit-scrollbar{height: 0px;width: 0px;}
     .col{margin-top:10px;padding:0px;border-radius:0px;width:50%;}
     .msg{background:var(--bgTitleC);cursor:pointer;border:var(--borderCol) 1px solid;}
     .msg:hover{background:var(--borderCol);}
     </style>
-    <h1 style="margin: 10px 10px -10px 10px;">WhatsApp Summary</h1><div id="wordList" style="max-height:20%;overflow-y:scroll;"></div><input id='wordInput' type="text" placeholder="Add Word"><img id="addWordBtn" src="https://s2.svgbox.net/hero-solid.svg?ic=plus&color=00af9c">
+    <h1 style="margin: 10px 10px 10px 10px;">WhatsApp Summary</h1><div id="wordList" style="max-height:20%;overflow-y:scroll;"></div><input id='wordInput' type="text" placeholder="Add Word"><img id="addWordBtn" src="https://s2.svgbox.net/hero-solid.svg?ic=plus&color=00af9c" style="position:relative; top:15px;">
     <input id="bgCol" class="col" type="color"><input id="hlCol" class="col" type="color" value="#000000">
     <div><h2><span id="CN" style="box-sizing: border-box;"></span></h2><span id="ASBtn" class="hvr" style="box-sizing: border-box;background:#00af9c;padding:0px 2px;cursor:pointer;width:100%;display:inline-block;text-align: center">Auto Scroll</span><div>
     <div id="summary"></div>
@@ -174,6 +182,7 @@
             listDom.append(createWordDom(val));
             getRegExps(val,findList);
         });
+        sc = 0;
     }
 
     updateListDom();
@@ -221,13 +230,7 @@
         }
     }
 
-    const updateStates = {
-        notFound:0,
-        opened:1
-    }
-    let updateState = updateStates.notFound;
-    let sc = 0;
-    let chatName = undefined;
+    
     const loop = ()=>{
         requestAnimationFrame(loop);
         let titleDoms = document.getElementsByClassName('YEe1t');
